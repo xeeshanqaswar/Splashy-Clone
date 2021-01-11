@@ -1,0 +1,53 @@
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class PlayerBehaviour : MonoBehaviour
+{
+
+    #region FIELDS DECLERATION
+
+    public DataManager database;
+    public Vector3 forceVector;
+
+    // Private Variable Decleration
+    private Rigidbody myRigibody;
+    private Vector3 movement;
+    private bool canJump;
+
+    #endregion
+
+    private void OnEnable()
+    {
+        database.GameStartAction += GameStartMethod;
+        database.GameOverAction += GameOverMethod;
+    }
+
+    private void Start()
+    {
+        myRigibody = GetComponent<Rigidbody>();
+    }
+
+    private void FixedUpdate()
+    {
+        if (canJump)
+        {
+            HandlePlayerJump();
+            canJump = false;
+        }
+    }
+
+    private void GameStartMethod()
+    {
+        HandlePlayerJump();
+    }
+
+    private void HandlePlayerJump()
+    {
+        myRigibody.AddForce(Vector3.one + forceVector, ForceMode.Impulse);
+    }
+
+    private void GameOverMethod()
+    {
+        ca

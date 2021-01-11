@@ -1,0 +1,40 @@
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class LevelManager : MonoBehaviour
+{
+    #region FIELDS DELCERATION
+
+    [Header("== REFERENCES ==")]
+    public DataManager database;
+    public Transform player;
+
+    [Header("== PROPERTIES ==")]
+    public LevelData[] levelProperties;
+
+    // Private fields decleration ======
+    private int currentLevel;
+    private Camera mainCamera;
+
+    #endregion
+
+    void Start()
+    {
+        mainCamera = Camera.main.GetComponent<Camera>();
+        currentLevel = database.currentLevel;
+
+        LevelInitialization();  
+    }
+
+    private void LevelInitialization()
+    {
+        for (int i = 0; i < levelProperties.Length; i++)
+        {
+            if(i == currentLevel)
+            {
+                mainCamera.backgroundColor = levelProperties[i].levelColor;
+                levelProperties[i].sceneObject.SetActive(true);
+                player.position = levelProperties[i].spawnPoint.position + new Vector3(0f, 1f,0f);
+                player.gameObjec
