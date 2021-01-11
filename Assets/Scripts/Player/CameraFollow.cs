@@ -5,14 +5,19 @@ using UnityEngine.PlayerLoop;
 
 public class CameraFollow : MonoBehaviour
 {
+    public float camSpeed;
 
-    public float distance;
-    public float height = 5.5f;
-    public Transform camTarget;
+    private Transform _player;
 
-    private void Update()
+    public void Init(Transform player)
     {
-        transform.position = camTarget.position + camTarget.forward * distance + Vector3.up * height;
+        _player = player;
+    }
+
+    public void Tick( float delta )
+    {
+        Vector3 moveVector = new Vector3(0f, 0f, _player.position.z);
+        transform.position = Vector3.Lerp(transform.position, moveVector, camSpeed * delta); ;
     }
 
 }

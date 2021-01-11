@@ -7,11 +7,11 @@ public class LevelManager : MonoBehaviour
 {
     #region FIELDS DELCERATION
 
-    [Header("== REFERENCES ==")]
-    public Transform player;
-
     [Header("== PROPERTIES ==")]
-    public LevelData[] levelProperties;
+    public int preInstCount = 50;
+    public float spawnDistanceV = 4f;
+    public float spawnDistanceH = 2f;
+    public GameObject platformPrefab;
 
     private GameData _gameData;
     private Camera mainCamera;
@@ -25,14 +25,11 @@ public class LevelManager : MonoBehaviour
         Instance = this;
     }
 
-    private void OnEnable()
+    public void Init(GameData data)
     {
         GameManager.Instance.LevelCompleteEvent += OnLevelComplete;
         GameManager.Instance.GameOverEvent += OnGameOver;
-    }
 
-    public void Init(GameData data)
-    {
         _gameData = data;
         LevelGeneration();  
     }
@@ -44,18 +41,14 @@ public class LevelManager : MonoBehaviour
 
     private void LevelGeneration()
     {
-        for (int i = 0; i < levelProperties.Length; i++)
+        for (int i = 0; i < preInstCount; i++)
         {
-            if(i == _gameData.currentLevel)
-            {
-                mainCamera.backgroundColor = levelProperties[i].levelColor;
-                levelProperties[i].sceneObject.SetActive(true);
-                player.position = levelProperties[i].spawnPoint.position;
-                player.gameObject.SetActive(true);
-            }
+            float horizontalPos = i > 0 && i != preInstCount - 1 ? UnityEngine.Random.Range(-spawnDistanceH, spawnDistanceH) : 0f;
+            Vector3 spawnPoint = new Vector3(horizontalPos, 0f, spawnDistanceV * i);
+
+            GameObject obj = Instantiate(platformPrefab, spawnPoint, Quaternion.identity, transform);
         }
     }
-
 
     #region EVENT LISTNERS
 
@@ -77,14 +70,4 @@ public class LevelManager : MonoBehaviour
         GameManager.Instance.GameOverEvent -= OnGameOver;
     }
 
-}
-
-[Serializable]
-public class LevelData
-{
-    public string name = "Level";
-    public Transform spawnPoint;
-    public Color levelColor;
-    public GameObject sceneObject;
-    public Color splashColor;
 }

@@ -18,15 +18,11 @@ public class UIManager : MonoBehaviour
         Instance = this;
     }
 
-    private void OnEnable()
+    public void Init(GameData data)
     {
         GameManager.Instance.LevelCompleteEvent += OnLevelComplete;
         GameManager.Instance.GameOverEvent += OnGameOver;
-    }
 
-
-    public void Init(GameData data)
-    {
         _gameData = data;
     }
 
