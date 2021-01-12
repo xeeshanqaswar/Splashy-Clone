@@ -8,14 +8,16 @@ public class LevelManager : MonoBehaviour
     #region FIELDS DELCERATION
 
     [Header("== PROPERTIES ==")]
-    public int preInstCount = 20;
+    public int platformCount = 20;
+    public int preInstCount = 7;
     public float spawnDistanceV = 4f;
     public float spawnDistanceH = 2f;
     public GameObject platformPrefab;
     public GameObject levelCompletePrefab;
 
     private GameData _gameData;
-    private Camera mainCamera;
+    //private ObjectPooling _objectPool;
+    private List<GameObject> _spawnedPlatforms = new List<GameObject>();
 
     public static LevelManager Instance;
 
@@ -31,8 +33,11 @@ public class LevelManager : MonoBehaviour
         GameManager.Instance.LevelCompleteEvent += OnLevelComplete;
         GameManager.Instance.GameOverEvent += OnGameOver;
 
+        //gameObject.TryGetComponent<ObjectPooling>(out _objectPool);
+        //_objectPool.Init();
+
         _gameData = data;
-        LevelGeneration();  
+        GeneratePlatforms();
     }
 
     public void Tick( float delta)
@@ -40,16 +45,17 @@ public class LevelManager : MonoBehaviour
 
     }
 
-    private void LevelGeneration()
+    private void GeneratePlatforms()
     {
         GameObject platform;
         Vector3 spawnPoint = Vector3.zero;
 
-        for (int i = 0; i < preInstCount - 1; i++)
+        for (int i = 0; i < platformCount - 1; i++)
         {
             platform = Instantiate(platformPrefab, spawnPoint, Quaternion.identity, transform);
+            _spawnedPlatforms.Add(platform);
 
-            float randHorizontal = i > 0 && i != preInstCount - 1 ? UnityEngine.Random.Range(-spawnDistanceH, spawnDistanceH) : 0f;
+            float randHorizontal = i > 0 && i != platformCount - 1 ? UnityEngine.Random.Range(-spawnDistanceH, spawnDistanceH) : 0f;
             spawnPoint.z += spawnDistanceV;
             spawnPoint.x = randHorizontal;
         }
@@ -57,7 +63,7 @@ public class LevelManager : MonoBehaviour
         // Spawning Endpoint
         spawnPoint.x = 0;
         platform = Instantiate(levelCompletePrefab, spawnPoint, Quaternion.identity, transform);
-
+        _spawnedPlatforms.Add(platform);
     }
 
     #region EVENT LISTNERS

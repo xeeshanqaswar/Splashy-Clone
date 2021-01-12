@@ -410,7 +410,7 @@ MonoBehaviour:
   targetGO: {fileID: 0}
   tweenTargetIsTargetGO: 1
   delay: 0
-  duration: 0.35
+  duration: 0.32
   easeType: 6
   easeCurve:
     serializedVersion: 2
@@ -452,7 +452,7 @@ MonoBehaviour:
   autoPlay: 0
   useTargetAsV3: 0
   endValueFloat: 0
-  endValueV3: {x: 0, y: 3.5, z: 0}
+  endValueV3: {x: 0, y: 3.2, z: 0}
   endValueV2: {x: 0, y: 0}
   endValueColor: {r: 1, g: 1, b: 1, a: 1}
   endValueString: 
@@ -1227,7 +1227,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b27bb6d052dfd746aeef55f48e0f960, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  preInstCount: 25
+  platformCount: 25
+  preInstCount: 7
   spawnDistanceV: 4
   spawnDistanceH: 2
   platformPrefab: {fileID: 4055458014814284744, guid: f744dede8abdfd641af47873e432bafe,
@@ -1243,7 +1244,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1250403327}
-  - component: {fileID: 1250403328}
   - component: {fileID: 1250403329}
   m_Layer: 0
   m_Name: Game Manager
@@ -1266,23 +1266,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1250403328
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1250403326}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 774abe65e3f39064cb0b063606bcca3a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spawnCount: 50
-  spawnDistanceV: 4
-  spawnDistanceH: 2
-  platformPrefab: {fileID: 4055458014814284744, guid: f744dede8abdfd641af47873e432bafe,
-    type: 3}
 --- !u!114 &1250403329
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1666,7 +1649,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   splashPrefab: {fileID: 792559321809824969, guid: 606ce456a48310f4d9b12464ace76a0f,
     type: 3}
-  moveSpeed: 5.6
+  moveSpeed: 6.25
   horizontalConst: 3
   detectionDist: 0.7
   interactionLayers:
