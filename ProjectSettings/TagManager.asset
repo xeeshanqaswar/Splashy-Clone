@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - Platform
+  - Game Complete
+  - GameOverObj
   layers:
   - Default
   - TransparentFX

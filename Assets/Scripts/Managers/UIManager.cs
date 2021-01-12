@@ -7,6 +7,10 @@ public class UIManager : MonoBehaviour
 
     #region FIELDS DECLERATION
 
+    public GameObject mainMenu;
+    public GameObject gameOver;
+    public GameObject gameComplete;
+
     private GameData _gameData;
 
     public static UIManager Instance;
@@ -31,17 +35,23 @@ public class UIManager : MonoBehaviour
 
     }
 
+    public void OnGameStartPress()
+    {
+        GameManager.Instance.GameStartEventCall();
+        mainMenu.SetActive(false);
+    }
+
 
     #region EVENT LISTNERS
 
     public void OnLevelComplete()
     {
-
+        gameComplete.SetActive(true);
     }
 
     public void OnGameOver()
     {
-
+        gameOver.SetActive(true);
     }
 
     #endregion

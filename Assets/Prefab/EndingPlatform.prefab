@@ -187,7 +187,7 @@ GameObject:
   - component: {fileID: 2966058761783421115}
   m_Layer: 0
   m_Name: Top
-  m_TagString: Untagged
+  m_TagString: Platform
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -279,6 +279,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0adb3fe55b0d29a459ac907c22b4d6b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  platformType: 1
 --- !u!1 &4055458014814284744
 GameObject:
   m_ObjectHideFlags: 0
@@ -289,7 +290,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4055458014814284791}
   m_Layer: 0
-  m_Name: Platform
+  m_Name: EndingPlatform
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -326,8 +327,8 @@ GameObject:
   - component: {fileID: 5606074528986836058}
   - component: {fileID: 854025547674989299}
   m_Layer: 0
-  m_Name: GameOver (1)
-  m_TagString: GameOverObj
+  m_Name: 'GameOver '
+  m_TagString: Undefined
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
