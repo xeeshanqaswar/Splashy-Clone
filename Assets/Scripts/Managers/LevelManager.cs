@@ -8,10 +8,11 @@ public class LevelManager : MonoBehaviour
     #region FIELDS DELCERATION
 
     [Header("== PROPERTIES ==")]
-    public int preInstCount = 50;
+    public int preInstCount = 20;
     public float spawnDistanceV = 4f;
     public float spawnDistanceH = 2f;
     public GameObject platformPrefab;
+    public GameObject levelCompletePrefab;
 
     private GameData _gameData;
     private Camera mainCamera;
@@ -41,13 +42,22 @@ public class LevelManager : MonoBehaviour
 
     private void LevelGeneration()
     {
-        for (int i = 0; i < preInstCount; i++)
-        {
-            float horizontalPos = i > 0 && i != preInstCount - 1 ? UnityEngine.Random.Range(-spawnDistanceH, spawnDistanceH) : 0f;
-            Vector3 spawnPoint = new Vector3(horizontalPos, 0f, spawnDistanceV * i);
+        GameObject platform;
+        Vector3 spawnPoint = Vector3.zero;
 
-            GameObject obj = Instantiate(platformPrefab, spawnPoint, Quaternion.identity, transform);
+        for (int i = 0; i < preInstCount - 1; i++)
+        {
+            platform = Instantiate(platformPrefab, spawnPoint, Quaternion.identity, transform);
+
+            float randHorizontal = i > 0 && i != preInstCount - 1 ? UnityEngine.Random.Range(-spawnDistanceH, spawnDistanceH) : 0f;
+            spawnPoint.z += spawnDistanceV;
+            spawnPoint.x = randHorizontal;
         }
+
+        // Spawning Endpoint
+        spawnPoint.x = 0;
+        platform = Instantiate(levelCompletePrefab, spawnPoint, Quaternion.identity, transform);
+
     }
 
     #region EVENT LISTNERS

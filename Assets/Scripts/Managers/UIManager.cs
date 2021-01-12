@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
@@ -39,6 +40,11 @@ public class UIManager : MonoBehaviour
     {
         GameManager.Instance.GameStartEventCall();
         mainMenu.SetActive(false);
+    }
+
+    public void OnGameRestartPress()
+    {
+        SceneManager.LoadScene("Gameplay");
     }
 
 

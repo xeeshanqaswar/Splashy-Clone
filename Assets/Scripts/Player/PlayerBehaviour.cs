@@ -19,11 +19,13 @@ public class PlayerBehaviour : MonoBehaviour
 
     [Header("== STATE ==")]
     public bool canRun = false;
+    public bool gameComplete = false;
 
     private DOTweenAnimation _animControl;
     private Transform _myTranform;
     private Transform _ballHolder;
     private Transform _childBall;
+    private bool _splashBuffer;
 
     #endregion
 
@@ -51,11 +53,19 @@ public class PlayerBehaviour : MonoBehaviour
 
     private void ForwardMovement(float delta)
     {
-        if (!canRun)
-            return;
-
-        _animControl.DOPlay();
-        _myTranform.Translate(transform.forward * moveSpeed * delta);
+        if (!canRun && !gameComplete)
+        {
+            _animControl.DOPause();
+        }
+        else
+        {
+            _animControl.DOPlay();
+        }
+        
+        if (canRun)
+        {
+            _myTranform.Translate(transform.forward * moveSpeed * delta);
+        }
     }
 
     private void ChildBallMovement()
@@ -65,32 +75,45 @@ public class PlayerBehaviour : MonoBehaviour
         _ballHolder.localPosition = constPosition;
     }
 
+    /// <summary>
+    /// Surface detection logic
+    /// </summary>
     private void DetectionLogic()
     {
         if (!canRun)
             return;
 
-        Ray ray = new Ray(_childBall.position, _childBall.transform.up);
-        Debug.DrawRay(_childBall.position, _childBall.transform.up * detectionDist, Color.red);
+        Debug.DrawRay(_childBall.position, -_childBall.transform.up * detectionDist, Color.red);
 
-        if (Physics.Raycast(ray, out RaycastHit hit, detectionDist, interactionLayers))
+        if (Physics.Raycast(_childBall.position, -_childBall.transform.up, out RaycastHit hit, detectionDist, interactionLayers))
         {
-            GameObject collided = hit.collider.gameObject;
+            //Debug.Log("GameObject " + hit.collider.gameObject.name);
+            GameObject collidedObject = hit.collider.gameObject;
 
-            if (collided.TryGetComponent<IInteractable>(out IInteractable Iobj))
+            if (collidedObject.TryGetComponent<IInteractable>(out IInteractable Iobj))
             {
-                GameObject splashMark = Instantiate(splashPrefab, hit.point, Quaternion.identity);
-                splashMark.transform.position = hit.point;
+                if (!_splashBuffer)
+                {
+                    _splashBuffer = true;
+                    GameObject splashMark = Instantiate(splashPrefab, hit.point + (Vector3.up * 0.01f), 
+                                                        splashPrefab.transform.rotation, collidedObject.transform);
+                }
 
                 Iobj.Interaction();
             }
-            else if (collided.CompareTag("GameOverObj"))
+            else if (collidedObject.CompareTag("GameOverObj"))
             {
                 GameManager.Instance.GameOverEventCall();
             }
         }
+        else
+        {
+            _splashBuffer = false;
+        }
 
     }
+
+    #region CALLBACKS RECEIVERS
 
     private void OnGameStart()
     {
@@ -104,8 +127,11 @@ public class PlayerBehaviour : MonoBehaviour
 
     private void OnLevelComplete()
     {
+        gameComplete = true;
         canRun = false;
     }
+
+    #endregion
 
     private void OnDisable()
     {
